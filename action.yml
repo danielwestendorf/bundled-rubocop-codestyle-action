@@ -1,0 +1,8 @@
+name: 'Bundled rubocop codestyle checks'
+description: 'Run codestyle checks with rubocop, add annotations'
+
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/check_codestyle.rb
+      shell: bash
