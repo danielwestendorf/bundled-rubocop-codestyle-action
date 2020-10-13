@@ -14,7 +14,8 @@ require 'time'
 @owner = @repository["owner"]["login"]
 @repo = @repository["name"]
 
-@check_name = "Rubocop"
+@check_name = ENV.fetch("CHECK_NAME", "Rubocop")
+@check_command = ENV.fetch("CHECK_COMMAND", "bundle exec rubocop --format json --parallel")
 
 @headers = {
   "Content-Type": 'application/json',
@@ -78,7 +79,7 @@ def run_rubocop
   annotations = []
   errors = nil
   Dir.chdir(@GITHUB_WORKSPACE) {
-    errors = JSON.parse(`bundle exec rubocop --format json --parallel`)
+    errors = JSON.parse(`#{@check_command}`)
   }
   conclusion = "success"
   count = 0
